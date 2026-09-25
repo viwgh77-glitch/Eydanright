@@ -1,0 +1,47 @@
+<html>
+<style>
+    .conteiner{
+        position: fixed;
+        width: 80vw;
+        height: 20vw;
+        bottom:0px ;
+        left:0px ;
+        background: #817392;
+    }
+        .give{
+        position: fixed;
+        width: 20vw;
+        height: 20vw;
+        bottom:0px ;
+        right: 0px;
+        background: #544561;
+    }
+</style>
+<body>
+    <div id="main"></div>
+    <div class="conteiner" id="conteiner" contenteditable="true"></div>
+    <div class="give" id="give"></div>
+    <script>
+        const ws = new WebSocket(`wss://${location.host}`);
+        let mes = [];
+        let main = document.getElementById('main');
+      let give = document.getElementById('give');
+      let conteiner = document.getElementById('conteiner');
+      function tik(sw){
+       let i = document.createElement("div");
+       i.textContent = sw;
+       main.appendChild(i);
+       mes.push(i);
+      };
+give.addEventListener('click',fh);
+function fh(){
+let k = conteiner.innerText;
+if(!k) return;
+ws.send(k);
+conteiner.innerText = '';
+}
+ws.onmessage = (e)=>{
+tik(e.data); //важно что data
+};
+    </script>
+</body>
